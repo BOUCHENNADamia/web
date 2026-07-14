@@ -1,28 +1,23 @@
 HWUM Summer Programme 2027 — Image Assets
 ==========================================
 
-REQUIRED IMAGES — replace placeholders with your own photos:
+STRUCTURE
+  /images/
+    hero-bg.jpg          → Hero banner (Petronas Towers, generated from Petronas.JPEG)
+    about-campus.jpg     → About section (Putra Mosque, generated from Putrajaya_Mosque.JPEG)
+    *.JPEG               → Original full-resolution photos (kept as source material,
+                           NOT referenced by the website)
+    /gallery/            → Web-optimised copies (max 1600 px, JPEG q80) used by the site
 
-ROOT /images/
-  hero-bg.jpg         → Hero banner image (recommended: 1920x1080px, KL skyline, campus, or aerial Malaysia)
-  about-campus.jpg    → About section image (recommended: HWUM campus building, 800x480px)
+GALLERY NAMING
+  Files are prefixed by country:  my- = Malaysia · sg- = Singapore · th- = Thailand
 
-GALLERY /images/gallery/
-  campus-1.jpg        → HWUM campus wide shot (banner/wide image)
-  campus-2.jpg        → Computer lab or classroom
-  campus-3.jpg        → Lecture room or library
-  food-1.jpg          → Nasi lemak or Malaysian dish
-  food-2.jpg          → Hawker centre or street food
-  food-3.jpg          → Roti canai or teh tarik
-  travel-1.jpg        → Petronas Twin Towers or KL skyline
-  travel-2.jpg        → Langkawi / beach destination
-  travel-3.jpg        → Batu Caves or Putrajaya mosque
-  travel-4.jpg        → Penang street art or Cameron Highlands
-  group-1.jpg         → Group photo of ESIEA students (wide/banner)
-  group-2.jpg         → Students at a landmark or cultural site
+ADDING A PHOTO TO THE CAROUSEL
+  1. Export a web-optimised copy (max ~1600 px) into /images/gallery/
+     e.g.  cn-great-wall.jpg  for a China photo
+  2. Open js/main.js and add one entry to the GALLERY_PHOTOS array
+     (src, country, title, desc). The country filter button appears automatically.
 
-TIPS:
-- Recommended gallery size: 800x800px (square) for regular items, 1200x600px for wide items
-- Use JPG for photos, PNG for graphics with transparency
-- Compress images with tinypng.com or squoosh.app for faster loading
-- You can use YOUR OWN PHOTOS from your trips — that makes the testimonials section authentic!
+NOTE
+  Box_Thaï.JPEG  is the Rajadamnern Muay Thai stadium  → th-muay-thai.jpg
+  Thaïlande.JPEG is a Bangkok night market             → th-night-market.jpg
