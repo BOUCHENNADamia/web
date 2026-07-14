@@ -80,7 +80,7 @@
 
       <!-- Image side -->
       <div class="about-img-wrap reveal">
-        <img src="images/about-campus.jpg" alt="Heriot-Watt University Malaysia campus in Putrajaya" loading="lazy" />
+        <img src="images/about-campus.jpg" alt="Putra Mosque on Putrajaya Lake, minutes from the HWUM campus" loading="lazy" />
         <div class="about-img-badge">📍 Putrajaya, Malaysia</div>
       </div>
 
@@ -402,11 +402,9 @@
 
               <div class="form-group">
                 <label for="fcourse">Preferred Course <span>*</span></label>
+                <!-- Options are loaded from the `courses` table in the MySQL database -->
                 <select id="fcourse" name="course" class="form-control" required>
                   <option value="" disabled selected>— Select a course —</option>
-                  <option value="Web Development and Databases">Web Development &amp; Databases (K17SW)</option>
-                  <option value="Python for Machine Learning">Python for Machine Learning (K17PL-SS)</option>
-                  <option value="Malay Communication Skills">Malay Communication Skills</option>
                 </select>
                 <span class="error-msg" role="alert"></span>
               </div>
@@ -417,6 +415,7 @@
                           placeholder="Any questions, dietary requirements, or additional information…"></textarea>
               </div>
 
+              <span class="error-msg" id="formGlobalError" role="alert"></span>
               <button type="submit" class="btn btn-dark btn-primary form-submit">
                 Submit Registration →
               </button>
@@ -439,97 +438,38 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     6. GALLERY
+     6. GALLERY — PLACES TO DISCOVER
 ══════════════════════════════════════════════════════════ -->
-<section id="gallery" class="section-wrap" aria-label="Photo Gallery">
+<section id="gallery" class="section-wrap" aria-label="Photo Gallery — Places to Discover">
   <div class="container">
     <div class="text-center">
       <span class="section-label reveal">Gallery</span>
-      <h2 class="section-title reveal">Life at HWUM &amp; Beyond</h2>
-      <p class="section-desc reveal">A glimpse into the learning environments, cultural experiences, food, and travel adventures that make this programme unforgettable.</p>
+      <h2 class="section-title reveal">Places You Will Discover</h2>
+      <p class="section-desc reveal">With classes running Monday to Wednesday only, every week is a chance to explore. Here is what awaits you in Malaysia — and just a short flight away in Singapore, Thailand and beyond. All photos were taken by previous participants.</p>
     </div>
 
-    <!-- Filter buttons -->
-    <div class="gallery-filters reveal" role="group" aria-label="Gallery filters">
-      <button class="filter-btn active" data-filter="all">All Photos</button>
-      <button class="filter-btn" data-filter="campus">🏫 Campus</button>
-      <button class="filter-btn" data-filter="travel">✈️ Travel</button>
-      <button class="filter-btn" data-filter="food">🍜 Food</button>
-      <button class="filter-btn" data-filter="group">👥 Group</button>
+    <!-- Country filters — buttons are generated from the photo data in js/main.js -->
+    <div class="gallery-filters reveal" id="galleryFilters" role="group" aria-label="Filter photos by country"></div>
+
+    <!-- Carousel — slides are generated from the photo data in js/main.js -->
+    <div class="carousel reveal">
+      <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous photos">&#10094;</button>
+      <div class="carousel-track" id="carouselTrack" aria-label="Photo carousel"></div>
+      <button class="carousel-btn next" id="carouselNext" aria-label="Next photos">&#10095;</button>
     </div>
-
-    <!-- Gallery grid -->
-    <!-- Replace src="images/..." with your own photos -->
-    <div class="gallery-grid reveal" id="galleryGrid">
-
-      <div class="gallery-item wide" data-cat="campus">
-        <img src="images/gallery/campus-1.jpg" alt="HWUM campus building in Putrajaya" loading="lazy" />
-        <div class="overlay"><span>🏫 HWUM Campus</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="food">
-        <img src="images/gallery/food-1.jpg" alt="Nasi lemak — Malaysia's national dish" loading="lazy" />
-        <div class="overlay"><span>🍚 Nasi Lemak</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="food">
-        <img src="images/gallery/food-2.jpg" alt="Hawker centre street food in KL" loading="lazy" />
-        <div class="overlay"><span>🍜 Hawker Centre</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="travel">
-        <img src="images/gallery/travel-1.jpg" alt="Petronas Twin Towers Kuala Lumpur" loading="lazy" />
-        <div class="overlay"><span>🏙️ KL Towers</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="travel">
-        <img src="images/gallery/travel-2.jpg" alt="Langkawi island beach Malaysia" loading="lazy" />
-        <div class="overlay"><span>🏖️ Langkawi</span></div>
-      </div>
-
-      <div class="gallery-item wide" data-cat="group">
-        <img src="images/gallery/group-1.jpg" alt="ESIEA students group photo at HWUM" loading="lazy" />
-        <div class="overlay"><span>👥 ESIEA 2026 Cohort</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="campus">
-        <img src="images/gallery/campus-2.jpg" alt="Students in computer lab at HWUM" loading="lazy" />
-        <div class="overlay"><span>💻 Computer Lab</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="travel">
-        <img src="images/gallery/travel-3.jpg" alt="Batu Caves temple Kuala Lumpur" loading="lazy" />
-        <div class="overlay"><span>🕌 Batu Caves</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="food">
-        <img src="images/gallery/food-3.jpg" alt="Roti canai Malaysian breakfast" loading="lazy" />
-        <div class="overlay"><span>🥞 Roti Canai</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="travel">
-        <img src="images/gallery/travel-4.jpg" alt="Penang George Town heritage street art" loading="lazy" />
-        <div class="overlay"><span>🎨 Penang Street Art</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="group">
-        <img src="images/gallery/group-2.jpg" alt="Students visiting Putrajaya mosque" loading="lazy" />
-        <div class="overlay"><span>🕌 Putrajaya</span></div>
-      </div>
-
-      <div class="gallery-item" data-cat="campus">
-        <img src="images/gallery/campus-3.jpg" alt="HWUM lecture room" loading="lazy" />
-        <div class="overlay"><span>📚 Lecture Room</span></div>
-      </div>
-
-    </div>
+    <p class="carousel-counter" id="carouselCounter" aria-live="polite"></p>
   </div>
 </section>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button class="lightbox-close" id="lightboxClose" aria-label="Close image viewer">&times;</button>
-  <img id="lightboxImg" src="" alt="" />
+  <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image">&#10094;</button>
+  <figure class="lightbox-figure">
+    <img id="lightboxImg" src="" alt="" />
+    <figcaption id="lightboxCaption"></figcaption>
+  </figure>
+  <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image">&#10095;</button>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -539,25 +479,21 @@
   <div class="container">
     <span class="section-label reveal">Database</span>
     <h2 class="section-title reveal">Registration Database</h2>
-    <p class="section-desc reveal">All submitted registrations are stored and can be filtered by course, searched by name or email, and exported as CSV.</p>
+    <p class="section-desc reveal">All submitted registrations are stored in a MySQL database (<code>hwum_summer</code>) queried through PHP and SQL. They can be filtered by course, searched by name or email, and exported as CSV — each operation runs a SQL query on the server.</p>
 
-    <!-- Stats bar -->
-    <div class="stats-bar reveal" aria-label="Registration statistics">
-      <div class="stat-pill"><strong id="totalCount">0</strong>Total Registrations</div>
-      <div class="stat-pill"><strong id="webCount">0</strong>Web Development</div>
-      <div class="stat-pill"><strong id="pyCount">0</strong>Python ML</div>
-      <div class="stat-pill"><strong id="malayCount">0</strong>Malay Skills</div>
-    </div>
+    <!-- Shown only if the PHP/MySQL server cannot be reached -->
+    <div class="db-status" id="dbStatus" role="alert" hidden></div>
+
+    <!-- Stats bar — counts computed by SQL (GROUP BY), filled by js/main.js -->
+    <div class="stats-bar reveal" id="statsBar" aria-label="Registration statistics"></div>
 
     <!-- Admin controls -->
     <div class="admin-header reveal">
       <div class="admin-filters" role="group" aria-label="Filter registrations">
         <label for="filterCourse">Filter by course:</label>
+        <!-- Course options are loaded from the `courses` table -->
         <select id="filterCourse" aria-label="Filter by course">
           <option value="all">All Courses</option>
-          <option value="Web Development and Databases">Web Development &amp; Databases</option>
-          <option value="Python for Machine Learning">Python for Machine Learning</option>
-          <option value="Malay Communication Skills">Malay Communication Skills</option>
         </select>
         <input type="search" id="filterSearch" class="admin-search"
                placeholder="Search name or email…" aria-label="Search registrations" />
