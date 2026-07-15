@@ -77,6 +77,39 @@ const GALLERY_PHOTOS = [
   { src: 'images/gallery/my-thean-hou.jpg', country: 'malaysia',
     title: 'Thean Hou Temple — Kuala Lumpur',
     desc: 'One of Southeast Asia\'s largest Chinese temples, famous for its hundreds of red lanterns.' },
+  { src: 'images/gallery/my-perhentian-bay.jpg', country: 'malaysia',
+    title: 'Perhentian Islands — Terengganu',
+    desc: 'Boats resting in the bay of Perhentian Kecil under a fiery sky — paradise islands on Malaysia\'s east coast, a weekend trip from KL.' },
+  { src: 'images/gallery/my-perhentian-village.jpg', country: 'malaysia',
+    title: 'Fisherman Village — Perhentian Islands',
+    desc: 'The stilt restaurants of the fishermen\'s village light up at dusk, right over the water.' },
+  { src: 'images/gallery/my-perhentian-boat.jpg', country: 'malaysia',
+    title: 'Boat trip at dawn — Perhentian Islands',
+    desc: 'Gliding over glassy water at sunrise — the classic way to hop between the islands\' beaches and snorkelling spots.' },
+  { src: 'images/gallery/my-perhentian-sunset.jpg', country: 'malaysia',
+    title: 'Sunset over the South China Sea',
+    desc: 'Watching the sun melt into the sea from the beach — every evening ends like this in the Perhentians.' },
+  { src: 'images/gallery/my-perhentian-turtle.jpg', country: 'malaysia',
+    title: 'Green Sea Turtle — Perhentian Islands',
+    desc: 'Snorkelling side by side with wild green turtles in crystal-clear water, just metres from the beach.' },
+  { src: 'images/gallery/my-perhentian-nemo.jpg', country: 'malaysia',
+    title: 'Finding Nemo — Perhentian Islands',
+    desc: 'A clownfish peeking out of its sea anemone on the shallow coral reef.' },
+  { src: 'images/gallery/my-perhentian-shark.jpg', country: 'malaysia',
+    title: 'Blacktip Reef Shark — Perhentian Islands',
+    desc: 'A (harmless!) blacktip reef shark patrolling the reef — one of the most thrilling encounters of the trip.' },
+  { src: 'images/gallery/my-melaka-church.jpg', country: 'malaysia',
+    title: 'Church of St. Francis Xavier — Melaka',
+    desc: 'A neo-Gothic church built in 1849, one landmark among many in Melaka\'s UNESCO-listed historic centre — two hours by bus from campus.' },
+  { src: 'images/gallery/my-melaka-afamosa.jpg', country: 'malaysia',
+    title: 'A Famosa Fort — Melaka',
+    desc: 'The Porta de Santiago gate is all that remains of the Portuguese fortress built in 1511 — one of the oldest European ruins in Asia.' },
+  { src: 'images/gallery/my-melaka-jonker.jpg', country: 'malaysia',
+    title: 'Jonker Street — Melaka',
+    desc: 'Colourful shophouses, chicken-rice balls and antique shops in the heart of Melaka\'s Chinatown.' },
+  { src: 'images/gallery/my-melaka-temple.jpg', country: 'malaysia',
+    title: 'Chinese Clan House — Melaka',
+    desc: 'Gilded calligraphy boards and quiet courtyards inside a clan house of Melaka\'s centuries-old Chinese community.' },
 
   // ── Singapore ──
   { src: 'images/gallery/sg-marina-bay.jpg', country: 'singapore',
@@ -155,10 +188,11 @@ let lightboxIndex = 0;
 
 function renderFilters() {
   const present = [...new Set(GALLERY_PHOTOS.map(p => p.country))];
-  const buttons = ['<button class="filter-btn active" data-filter="all">All Photos</button>']
-    .concat(present.map(c =>
-      `<button class="filter-btn" data-filter="${c}">${COUNTRIES[c].flag} ${COUNTRIES[c].label}</button>`
-    ));
+  const buttons = [`<button class="filter-btn active" data-filter="all">All <sup>${GALLERY_PHOTOS.length}</sup></button>`]
+    .concat(present.map(c => {
+      const count = GALLERY_PHOTOS.filter(p => p.country === c).length;
+      return `<button class="filter-btn" data-filter="${c}">${COUNTRIES[c].flag} ${COUNTRIES[c].label} <sup>${count}</sup></button>`;
+    }));
   galleryFilters.innerHTML = buttons.join('');
 
   galleryFilters.querySelectorAll('.filter-btn').forEach(btn => {
@@ -218,7 +252,7 @@ function openLightbox(index) {
   if (!p) return;
   lightboxImg.src = p.src;
   lightboxImg.alt = p.title;
-  lightboxCaption.innerHTML = `<strong>${COUNTRIES[p.country].flag} ${p.title}</strong>${p.desc}`;
+  lightboxCaption.innerHTML = `<strong>${p.title}</strong>${p.desc}`;
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -274,8 +308,8 @@ function showDbError(err) {
   if (!dbStatus) return;
   dbStatus.hidden = false;
   dbStatus.textContent = err instanceof TypeError
-    ? '⚠ Cannot reach the database server. Start Apache and MySQL (XAMPP), import database.sql, and open the site via http://localhost/ — not by double-clicking index.html.'
-    : '⚠ ' + err.message;
+    ? 'Database offline — Cannot reach the database server. Start Apache and MySQL (XAMPP), import database.sql, and open the site via http://localhost/ — not by double-clicking index.html.'
+    : 'Database error — ' + err.message;
 }
 
 function hideDbError() {
@@ -417,7 +451,6 @@ async function renderAdminTable() {
     showDbError(err);
     adminTableBody.innerHTML = `
       <tr><td colspan="6" class="table-empty">
-        <div class="empty-icon">🔌</div>
         <p>Database not connected.</p>
       </td></tr>`;
     return;
@@ -436,7 +469,6 @@ async function renderAdminTable() {
   if (displayedRows.length === 0) {
     adminTableBody.innerHTML = `
       <tr><td colspan="6" class="table-empty">
-        <div class="empty-icon">📋</div>
         <p>No registrations found. ${data.total === 0 ? 'Registrations will appear here once students submit the form.' : 'Try adjusting your filters.'}</p>
       </td></tr>`;
     return;
@@ -452,7 +484,7 @@ async function renderAdminTable() {
       <td><a href="mailto:${escapeHTML(r.email)}">${escapeHTML(r.email)}</a></td>
       <td><span class="course-badge ${badge}">${escapeHTML(r.courseName)}</span></td>
       <td>${date}</td>
-      <td><button class="delete-btn" onclick="handleDelete(${r.regID})" title="Delete entry">🗑</button></td>
+      <td><button class="delete-btn" onclick="handleDelete(${r.regID})" title="Delete entry">Delete</button></td>
     </tr>`;
   }).join('');
 }
