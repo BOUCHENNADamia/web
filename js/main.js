@@ -174,6 +174,9 @@ const GALLERY_PHOTOS = [
   { src: 'images/gallery/th-muay-thai.jpg', country: 'thailand',
     title: 'Muay Thai — Rajadamnern Stadium',
     desc: 'Thailand\'s national sport, live in Bangkok\'s legendary boxing arena.' }
+   // ── Chine ──
+  
+   
 ];
 
 const galleryFilters  = document.getElementById('galleryFilters');
