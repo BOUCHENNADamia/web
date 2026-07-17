@@ -175,7 +175,6 @@ const GALLERY_PHOTOS = [
     title: 'Muay Thai — Rajadamnern Stadium',
     desc: 'Thailand\'s national sport, live in Bangkok\'s legendary boxing arena.' }
    // ── Chine ──
-  // ── China / Hong Kong ──
   { src: 'images/gallery/ch-Bruce-Lee-statue.jpg', country: 'china',
     title: 'Bruce Lee Statue — Hong Kong',
     desc: 'The iconic bronze statue of the martial arts legend standing on the Avenue of Stars.' },
