@@ -173,7 +173,7 @@ const GALLERY_PHOTOS = [
     desc: 'Street-food paradise: pad thai, mango sticky rice and grilled skewers for a couple of euros.' },
   { src: 'images/gallery/th-muay-thai.jpg', country: 'thailand',
     title: 'Muay Thai — Rajadamnern Stadium',
-    desc: 'Thailand\'s national sport, live in Bangkok\'s legendary boxing arena.' }
+    desc: 'Thailand\'s national sport, live in Bangkok\'s legendary boxing arena.' },
    // ── Chine ──
   { src: 'images/gallery/ch-Bruce-Lee-statue.jpg', country: 'china',
     title: 'Bruce Lee Statue — Hong Kong',
