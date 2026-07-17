@@ -211,7 +211,7 @@ const GALLERY_PHOTOS = [
   { src: 'images/gallery/ch-lianhuashan-park-statue.jpg', country: 'china',
     title: 'Deng Xiaoping Statue — Lianhuashan Park',
     desc: 'The prominent statue at the summit of Lianhuashan Park, overlooking Shenzhen.' },
-  { src: 'images/gallery/ch-sik-sik-yuen-wong-tai-stat.jpg', country: 'china',
+  { src: 'images/gallery/ch-sik-sik-yuen-wong-tai-statue.jpg', country: 'china',
     title: 'Wong Tai Sin Temple — Hong Kong',
     desc: 'The colorful and bustling Sik Sik Yuen Wong Tai Sin Temple, famous for its wish-granting reputation.' },
   { src: 'images/gallery/ch-spiral-library.jpg', country: 'china',
