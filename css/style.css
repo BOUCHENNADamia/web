@@ -255,7 +255,7 @@ p  { color: var(--mid); line-height: 1.75; }
   color: var(--mango);
 }
 .hero-stat span {
-  font-size: 0.68rem; color: rgba(252,247,236,0.62);
+  font-size: 0.72rem; color: rgba(252,247,236,0.85);
   text-transform: uppercase; letter-spacing: 0.16em;
   font-weight: 600;
 }
@@ -381,8 +381,8 @@ p  { color: var(--mid); line-height: 1.75; }
 .course-header.py    { background: var(--teal);  }
 .course-header.malay { background: var(--terra); }
 .course-code {
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em;
-  color: rgba(252,247,236,0.65);
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+  color: rgba(252,247,236,0.85);
   text-transform: uppercase;
   margin-bottom: 0.6rem;
 }
@@ -540,7 +540,7 @@ p  { color: var(--mid); line-height: 1.75; }
 .slide-caption { padding: 1.1rem 0.9rem 1.4rem; }
 .slide-country {
   display: block;
-  font-size: 0.68rem; font-weight: 700;
+  font-size: 0.72rem; font-weight: 700;
   letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--terra);
   margin-bottom: 0.5rem;

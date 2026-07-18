@@ -20,6 +20,7 @@ window.addEventListener('scroll', () => {
 hamburger.addEventListener('click', () => {
   hamburger.classList.toggle('open');
   navLinks.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', hamburger.classList.contains('open'));
 });
 
 // Close menu when a link is clicked
@@ -27,6 +28,7 @@ navLinks.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => {
     hamburger.classList.remove('open');
     navLinks.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
   });
 });
 
@@ -174,7 +176,8 @@ const GALLERY_PHOTOS = [
   { src: 'images/gallery/th-muay-thai.jpg', country: 'thailand',
     title: 'Muay Thai — Rajadamnern Stadium',
     desc: 'Thailand\'s national sport, live in Bangkok\'s legendary boxing arena.' },
-   // ── Chine ──
+
+  // ── China ──
   { src: 'images/gallery/ch-Bruce-Lee-statue.jpg', country: 'china',
     title: 'Bruce Lee Statue — Hong Kong',
     desc: 'The iconic bronze statue of the martial arts legend standing on the Avenue of Stars.' },
@@ -217,7 +220,6 @@ const GALLERY_PHOTOS = [
   { src: 'images/gallery/ch-spiral-library.jpg', country: 'china',
     title: 'Modern Architecture',
     desc: 'A unique architectural perspective of a modern library design.' }
-   
 ];
 
 const galleryFilters  = document.getElementById('galleryFilters');
@@ -290,6 +292,8 @@ document.getElementById('carouselNext').addEventListener('click', () => carousel
 carouselTrack.addEventListener('scroll', updateCounter);
 
 /* Lightbox */
+let lightboxLastFocused = null; // element to give focus back to on close
+
 function openLightbox(index) {
   lightboxIndex = index;
   const p = visiblePhotos[index];
@@ -297,8 +301,12 @@ function openLightbox(index) {
   lightboxImg.src = p.src;
   lightboxImg.alt = p.title;
   lightboxCaption.innerHTML = `<strong>${p.title}</strong>${p.desc}`;
-  lightbox.classList.add('open');
-  document.body.style.overflow = 'hidden';
+  if (!lightbox.classList.contains('open')) {
+    lightboxLastFocused = document.activeElement;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lightboxClose').focus();
+  }
 }
 
 function stepLightbox(dir) {
@@ -308,6 +316,10 @@ function stepLightbox(dir) {
 function closeLightbox() {
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
+  if (lightboxLastFocused) {
+    lightboxLastFocused.focus();
+    lightboxLastFocused = null;
+  }
 }
 
 document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
@@ -528,12 +540,12 @@ async function renderAdminTable() {
       <td><a href="mailto:${escapeHTML(r.email)}">${escapeHTML(r.email)}</a></td>
       <td><span class="course-badge ${badge}">${escapeHTML(r.courseName)}</span></td>
       <td>${date}</td>
-      <td><button class="delete-btn" onclick="handleDelete(${r.regID})" title="Delete entry">Delete</button></td>
+      <td><button class="delete-btn" data-id="${r.regID}" title="Delete entry">Delete</button></td>
     </tr>`;
   }).join('');
 }
 
-window.handleDelete = async function(id) {
+async function handleDelete(id) {
   if (!confirm('Remove this registration from the database?')) return;
   try {
     // DELETE FROM registrations WHERE regID = ? via php/delete.php
@@ -542,7 +554,13 @@ window.handleDelete = async function(id) {
   } catch (err) {
     showDbError(err);
   }
-};
+}
+
+// One listener on the table body handles every Delete button (event delegation)
+adminTableBody?.addEventListener('click', (e) => {
+  const btn = e.target.closest('.delete-btn');
+  if (btn) handleDelete(Number(btn.dataset.id));
+});
 
 filterCourse?.addEventListener('change', renderAdminTable);
 
