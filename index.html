@@ -17,9 +17,10 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════
-     NAVIGATION
-══════════════════════════════════════════════════════════ -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- Navigation -->
+<header>
 <nav id="navbar" role="navigation" aria-label="Main navigation">
   <div class="container">
     <a class="nav-brand" href="#home" aria-label="HWUM Summer Programme home">
@@ -41,10 +42,11 @@
     </button>
   </div>
 </nav>
+</header>
 
-<!-- ══════════════════════════════════════════════════════════
-     1. HOME — HERO
-══════════════════════════════════════════════════════════ -->
+<main id="main-content">
+
+<!-- Home -->
 <section id="home" aria-label="Home">
   <div class="hero-inner">
     <p class="hero-eyebrow reveal">Heriot-Watt University Malaysia &mdash; Summer 2027</p>
@@ -79,9 +81,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     2. ABOUT THE PROGRAMME
-══════════════════════════════════════════════════════════ -->
+<!-- About -->
 <section id="about" class="section-wrap" aria-label="About the Programme">
   <div class="container">
     <div class="about-grid">
@@ -141,9 +141,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     3. COURSES
-══════════════════════════════════════════════════════════ -->
+<!-- Courses -->
 <section id="courses" class="section-wrap" aria-label="Course Information">
   <div class="container">
     <div class="text-center">
@@ -242,9 +240,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     4. TESTIMONIALS
-══════════════════════════════════════════════════════════ -->
+<!-- Testimonials -->
 <section id="testimonials" aria-label="Student Testimonials">
   <div class="container">
     <div class="text-center">
@@ -343,9 +339,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     5. REGISTRATION FORM
-══════════════════════════════════════════════════════════ -->
+<!-- Registration form -->
 <section id="register" class="section-wrap" aria-label="Registration Form">
   <div class="container">
     <div class="register-wrap">
@@ -404,7 +398,6 @@
 
               <div class="form-group">
                 <label for="fcourse">Preferred Course <span>*</span></label>
-                <!-- Options are loaded from the `courses` table in the MySQL database -->
                 <select id="fcourse" name="course" class="form-control" required>
                   <option value="" disabled selected>— Select a course —</option>
                 </select>
@@ -438,9 +431,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     6. GALLERY — PLACES TO DISCOVER
-══════════════════════════════════════════════════════════ -->
+<!-- Gallery -->
 <section id="gallery" class="section-wrap" aria-label="Photo Gallery — Places to Discover">
   <div class="container">
     <div class="text-center">
@@ -449,10 +440,10 @@
       <p class="section-desc reveal">With classes running Monday to Wednesday only, every week is a chance to explore. Here is what awaits you in Malaysia — and just a short flight away in Singapore, Thailand and beyond. All photos were taken by previous participants.</p>
     </div>
 
-    <!-- Country filters — buttons are generated from the photo data in js/main.js -->
+    <!-- Country filters -->
     <div class="gallery-filters reveal" id="galleryFilters" role="group" aria-label="Filter photos by country"></div>
 
-    <!-- Carousel — slides are generated from the photo data in js/main.js -->
+    <!-- Carousel -->
     <div class="carousel reveal">
       <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous photos">&#10094;</button>
       <div class="carousel-track" id="carouselTrack" aria-label="Photo carousel"></div>
@@ -473,26 +464,22 @@
   <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image">&#10095;</button>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     DATABASE / ADMIN PANEL
-══════════════════════════════════════════════════════════ -->
+<!-- Database panel -->
 <section id="admin" class="section-wrap" aria-label="Registration Database">
   <div class="container">
     <span class="section-label reveal">06 &mdash; Database</span>
     <h2 class="section-title reveal">Registration Database</h2>
     <p class="section-desc reveal">All submitted registrations are stored in a MySQL database (<code>hwum_summer</code>) queried through PHP and SQL. They can be filtered by course, searched by name or email, and exported as CSV — each operation runs a SQL query on the server.</p>
 
-    <!-- Shown only if the PHP/MySQL server cannot be reached -->
     <div class="db-status" id="dbStatus" role="alert" hidden></div>
 
-    <!-- Stats bar — counts computed by SQL (GROUP BY), filled by js/main.js -->
+    <!-- Stats bar -->
     <div class="stats-bar reveal" id="statsBar" aria-label="Registration statistics"></div>
 
     <!-- Admin controls -->
     <div class="admin-header reveal">
       <div class="admin-filters" role="group" aria-label="Filter registrations">
         <label for="filterCourse">Filter by course:</label>
-        <!-- Course options are loaded from the `courses` table -->
         <select id="filterCourse" aria-label="Filter by course">
           <option value="all">All Courses</option>
         </select>
@@ -528,9 +515,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     7. CONTACT
-══════════════════════════════════════════════════════════ -->
+<!-- Contact -->
 <section id="contact" class="section-wrap" aria-label="Contact Information">
   <div class="container">
     <div class="text-center">
@@ -602,9 +587,9 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════════════════════ -->
+</main>
+
+<!-- Footer -->
 <footer role="contentinfo">
   <div class="footer-inner">
     <div class="footer-brand-col">

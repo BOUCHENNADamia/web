@@ -1,10 +1,5 @@
--- ============================================================
--- HWUM Summer Programme 2027 — Database creation script
--- K17SW Web Development and Databases
---
--- Run this script once in phpMyAdmin (Import tab) or with:
---   mysql -u root < database.sql
--- ============================================================
+-- HWUM Summer Programme 2027 — database creation script
+-- Import once in phpMyAdmin (Import tab)
 
 CREATE DATABASE IF NOT EXISTS hwum_summer
   CHARACTER SET utf8mb4
@@ -12,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS hwum_summer
 
 USE hwum_summer;
 
--- ── Table 1: courses (parent table) ─────────────────────────
+-- courses
 CREATE TABLE IF NOT EXISTS courses (
   courseID        INT AUTO_INCREMENT PRIMARY KEY,
   courseCode      VARCHAR(20)  NOT NULL UNIQUE,
@@ -20,11 +15,7 @@ CREATE TABLE IF NOT EXISTS courses (
   sessionsPerWeek TINYINT      NOT NULL DEFAULT 3
 );
 
--- ── Table 2: registrations (child table) ────────────────────
--- courseID is a FOREIGN KEY referencing courses(courseID):
---   ON DELETE RESTRICT  → a course cannot be deleted while
---                          students are registered on it
---   ON UPDATE CASCADE   → key updates propagate automatically
+-- registrations
 CREATE TABLE IF NOT EXISTS registrations (
   regID    INT AUTO_INCREMENT PRIMARY KEY,
   fullName VARCHAR(150) NOT NULL,
@@ -38,13 +29,13 @@ CREATE TABLE IF NOT EXISTS registrations (
     ON DELETE RESTRICT
 );
 
--- ── Seed data: the three programme courses ──────────────────
+-- Seed data: courses
 INSERT INTO courses (courseCode, courseName, sessionsPerWeek) VALUES
   ('K17SW',    'Web Development and Databases', 3),
   ('K17PL-SS', 'Python for Machine Learning',   3),
   ('MALAY-SS', 'Malay Communication Skills',    1);
 
--- ── Seed data: demo registrations ───────────────────────────
+-- Seed data: registrations
 INSERT INTO registrations (fullName, phone, email, courseID, comments) VALUES
   ('Sophie Martin',  '+33 6 12 34 56 78', 's.martin@esiea.fr',  1, 'Very excited for this programme!'),
   ('Lucas Bernard',  '+33 7 98 76 54 32', 'l.bernard@esiea.fr', 2, 'Looking forward to the ML projects.'),

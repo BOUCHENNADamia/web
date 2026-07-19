@@ -1,10 +1,5 @@
 <?php
-/* ============================================================
-   Database connection details (see Week 7 — Storing Connection
-   Details). Kept in one file so the credentials can be changed
-   without touching any other code.
-   Default values match a standard XAMPP installation.
-   ============================================================ */
+/* Database connection details — defaults match a standard XAMPP install */
 
 define('DBHOST', 'localhost');
 define('DBNAME', 'hwum_summer');

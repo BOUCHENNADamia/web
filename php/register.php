@@ -1,12 +1,5 @@
 <?php
-/* ============================================================
-   POST /php/register.php
-   Body (JSON): { name, phone, email, courseID, comments }
-
-   Inserts one registration using a prepared statement with
-   named parameters (see Week 7 — Prepared Statements), which
-   protects against SQL injection.
-   ============================================================ */
+/* POST — insert one registration (prepared statement) */
 
 require_once('db.php');
 
@@ -21,7 +14,7 @@ $email    = trim($input['email']    ?? '');
 $courseID = (int) ($input['courseID'] ?? 0);
 $comments = trim($input['comments'] ?? '');
 
-// Server-side validation (never trust client input alone)
+// Server-side validation
 if ($name === '' || $phone === '' || $email === '' || $courseID <= 0) {
     jsonError('Please fill in all required fields.', 400);
 }
@@ -47,8 +40,7 @@ try {
     $pdo = null;
 }
 catch (PDOException $e) {
-    // 23000 = integrity constraint violation:
-    // either the UNIQUE email or the courseID foreign key
+        // 23000 = duplicate email or invalid courseID
     if ($e->getCode() == 23000) {
         jsonError('This email address is already registered.', 409);
     }

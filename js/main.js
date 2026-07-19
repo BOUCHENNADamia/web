@@ -1,13 +1,8 @@
-/* ============================================================
-   HWUM Summer Programme 2027 — main.js
-   Handles: Navigation, Scroll Reveal, Form + Validation,
-            MySQL Database (via PHP/PDO API), Filtering,
-            Gallery Carousel + Lightbox
-   ============================================================ */
+/* HWUM Summer Programme 2027 — main.js */
 
 'use strict';
 
-/* ── 1. NAVIGATION ───────────────────────────────────────── */
+/* Navigation */
 const navbar    = document.getElementById('navbar');
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('navLinksWrap');
@@ -23,7 +18,6 @@ hamburger.addEventListener('click', () => {
   hamburger.setAttribute('aria-expanded', hamburger.classList.contains('open'));
 });
 
-// Close menu when a link is clicked
 navLinks.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => {
     hamburger.classList.remove('open');
@@ -43,7 +37,7 @@ function highlightNavLink() {
   });
 }
 
-/* ── 2. SCROLL REVEAL ────────────────────────────────────── */
+/* Scroll reveal */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
@@ -55,9 +49,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-/* ── 3. GALLERY — CAROUSEL + COUNTRY FILTERS + LIGHTBOX ──── */
-// To add a photo: drop the file in images/gallery/ and add one entry below.
-// A filter button appears automatically for every country present in the data.
+/* Gallery */
 const COUNTRIES = {
   malaysia:  { label: 'Malaysia',  flag: '🇲🇾' },
   singapore: { label: 'Singapore', flag: '🇸🇬' },
@@ -66,7 +58,7 @@ const COUNTRIES = {
 };
 
 const GALLERY_PHOTOS = [
-  // ── Malaysia ──
+  // Malaysia
   { src: 'images/gallery/my-petronas.jpg', country: 'malaysia',
     title: 'Petronas Twin Towers — Kuala Lumpur',
     desc: 'The iconic 452 m twin skyscrapers, symbol of modern Malaysia — just 45 minutes from campus.' },
@@ -113,7 +105,7 @@ const GALLERY_PHOTOS = [
     title: 'Chinese Clan House — Melaka',
     desc: 'Gilded calligraphy boards and quiet courtyards inside a clan house of Melaka\'s centuries-old Chinese community.' },
 
-  // ── Singapore ──
+  // Singapore
   { src: 'images/gallery/sg-marina-bay.jpg', country: 'singapore',
     title: 'Marina Bay — Singapore',
     desc: 'Singapore\'s futuristic skyline around Marina Bay Sands — one hour by plane or an overnight bus from KL.' },
@@ -142,7 +134,7 @@ const GALLERY_PHOTOS = [
     title: 'Sentosa Island',
     desc: 'Singapore\'s resort island — beaches, cable cars and Universal Studios.' },
 
-  // ── Thailand ──
+  // Thailand
   { src: 'images/gallery/th-grand-palace-1.jpg', country: 'thailand',
     title: 'The Grand Palace — Bangkok',
     desc: 'Home of the Kings of Siam since 1782 and Thailand\'s most sacred site.' },
@@ -177,7 +169,7 @@ const GALLERY_PHOTOS = [
     title: 'Muay Thai — Rajadamnern Stadium',
     desc: 'Thailand\'s national sport, live in Bangkok\'s legendary boxing arena.' },
 
-  // ── China ──
+  // China
   { src: 'images/gallery/ch-Bruce-Lee-statue.jpg', country: 'china',
     title: 'Bruce Lee Statue — Hong Kong',
     desc: 'The iconic bronze statue of the martial arts legend standing on the Avenue of Stars.' },
@@ -258,7 +250,7 @@ function renderCarousel(filter = 'all') {
   carouselTrack.innerHTML = visiblePhotos.map((p, i) => `
     <figure class="carousel-slide" data-index="${i}" tabindex="0" role="button"
             aria-label="View ${p.title} full size">
-      <img src="${p.src}" alt="${p.title}" loading="lazy" />
+      <img src="${p.src}" alt="${p.title}" loading="lazy" decoding="async" />
       <figcaption class="slide-caption">
         <span class="slide-country">${COUNTRIES[p.country].flag} ${COUNTRIES[p.country].label}</span>
         <h3>${p.title}</h3>
@@ -278,7 +270,7 @@ function renderCarousel(filter = 'all') {
 
 function slideStep() {
   const slide = carouselTrack.querySelector('.carousel-slide');
-  return slide ? slide.offsetWidth + 20 : 400; // slide width + track gap
+  return slide ? slide.offsetWidth + 20 : 400;
 }
 
 function updateCounter() {
@@ -292,7 +284,7 @@ document.getElementById('carouselNext').addEventListener('click', () => carousel
 carouselTrack.addEventListener('scroll', updateCounter);
 
 /* Lightbox */
-let lightboxLastFocused = null; // element to give focus back to on close
+let lightboxLastFocused = null;
 
 function openLightbox(index) {
   lightboxIndex = index;
@@ -336,14 +328,11 @@ document.addEventListener('keydown', e => {
 renderFilters();
 renderCarousel();
 
-/* ── 4. DATABASE (MySQL via PHP + PDO) ──────────────────── */
-// All registrations live in the MySQL database `hwum_summer`
-// (created by database.sql). The PHP scripts in /php run the
-// SQL queries with PDO prepared statements and return JSON.
+/* Database */
 const API_BASE = 'php/';
 
-let dbCourses     = [];  // courses table, loaded from the database
-let displayedRows = [];  // rows currently shown (used for CSV export)
+let dbCourses     = [];
+let displayedRows = [];
 
 async function apiRequest(url, postData) {
   const options = postData
@@ -387,7 +376,7 @@ function populateCourseSelects() {
   });
 }
 
-/* ── 5. REGISTRATION FORM ────────────────────────────────── */
+/* Registration form */
 const regForm    = document.getElementById('regForm');
 const formWrap   = document.getElementById('formWrap');
 const formSuccess = document.getElementById('formSuccess');
@@ -442,7 +431,6 @@ regForm.addEventListener('submit', async (e) => {
   if (formError) formError.classList.remove('show');
 
   try {
-    // INSERT INTO registrations … executed by php/register.php
     await apiRequest('register.php', data);
     formWrap.style.display = 'none';
     formSuccess.style.display = 'block';
@@ -465,7 +453,7 @@ document.getElementById('resetFormBtn')?.addEventListener('click', () => {
   regForm.reset();
 });
 
-/* ── 6. ADMIN TABLE ──────────────────────────────────────── */
+/* Admin table */
 const adminTableBody = document.getElementById('adminTableBody');
 const filterCourse   = document.getElementById('filterCourse');
 const filterSearch   = document.getElementById('filterSearch');
@@ -501,7 +489,6 @@ async function renderAdminTable() {
 
   let data;
   try {
-    // SELECT … INNER JOIN … WHERE … executed by php/registrations.php
     data = await apiRequest('registrations.php?' + params.toString());
   } catch (err) {
     showDbError(err);
@@ -548,7 +535,6 @@ async function renderAdminTable() {
 async function handleDelete(id) {
   if (!confirm('Remove this registration from the database?')) return;
   try {
-    // DELETE FROM registrations WHERE regID = ? via php/delete.php
     await apiRequest('delete.php', { id });
     renderAdminTable();
   } catch (err) {
@@ -556,7 +542,6 @@ async function handleDelete(id) {
   }
 }
 
-// One listener on the table body handles every Delete button (event delegation)
 adminTableBody?.addEventListener('click', (e) => {
   const btn = e.target.closest('.delete-btn');
   if (btn) handleDelete(Number(btn.dataset.id));
@@ -564,14 +549,14 @@ adminTableBody?.addEventListener('click', (e) => {
 
 filterCourse?.addEventListener('change', renderAdminTable);
 
-// Debounce the search so we don't query the database on every keystroke
+// Debounce search
 let searchTimer;
 filterSearch?.addEventListener('input', () => {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(renderAdminTable, 300);
 });
 
-// Export CSV (from the rows currently displayed)
+// Export CSV
 document.getElementById('exportBtn')?.addEventListener('click', () => {
   if (!displayedRows.length) { alert('No registrations to export.'); return; }
   const quote  = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -594,7 +579,7 @@ function escapeHTML(str) {
   return d.innerHTML;
 }
 
-/* ── 7. INIT ─────────────────────────────────────────────── */
+/* Init */
 document.addEventListener('DOMContentLoaded', () => {
   renderAdminTable();
   highlightNavLink();

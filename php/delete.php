@@ -1,12 +1,5 @@
 <?php
-/* ============================================================
-   POST /php/delete.php
-   Body (JSON): { id }
-
-   Deletes one registration by primary key. The WHERE clause is
-   essential — without it, DELETE would remove all the records!
-   (see Week 7 — UPDATE and DELETE Statements)
-   ============================================================ */
+/* POST — delete one registration by primary key */
 
 require_once('db.php');
 

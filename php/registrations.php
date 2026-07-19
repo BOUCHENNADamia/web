@@ -1,14 +1,5 @@
 <?php
-/* ============================================================
-   GET /php/registrations.php[?course=<courseID>][&search=<text>]
-
-   Returns, as JSON:
-   - courses:       all courses (populates the <select> menus)
-   - registrations: rows filtered in SQL (WHERE / LIKE) and
-                    joined with courses (INNER JOIN)
-   - stats:         per-course counts (LEFT JOIN + GROUP BY)
-   - total:         total number of registrations
-   ============================================================ */
+/* GET — courses, registrations (SQL-filtered) and stats as JSON */
 
 require_once('db.php');
 
@@ -21,7 +12,7 @@ try {
          FROM courses ORDER BY courseID"
     )->fetchAll();
 
-    // Registrations, filtered in SQL with prepared parameters
+    // Registrations
     $sql = "SELECT r.regID, r.fullName, r.phone, r.email, r.comments, r.regDate,
                    c.courseID, c.courseCode, c.courseName
             FROM registrations r
@@ -46,7 +37,7 @@ try {
     $statement->execute($params);
     $registrations = $statement->fetchAll();
 
-    // Per-course statistics computed by the database (GROUP BY)
+    // Per-course stats
     $stats = $pdo->query(
         "SELECT c.courseID, c.courseCode, c.courseName, COUNT(r.regID) AS total
          FROM courses c
@@ -65,7 +56,7 @@ try {
         'total'         => $total
     ]);
 
-    $pdo = null; // free resources and close connection
+    $pdo = null;
 }
 catch (PDOException $e) {
     jsonError('Database error: ' . $e->getMessage());
