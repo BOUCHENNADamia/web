@@ -14,35 +14,17 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
+  <!-- React 18 + Babel (CDN — no bundler required) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<!-- Navigation -->
-<header>
-<nav id="navbar" role="navigation" aria-label="Main navigation">
-  <div class="container">
-    <a class="nav-brand" href="#home" aria-label="HWUM Summer Programme home">
-      <span>HWUM</span>&nbsp;Summer&thinsp;&mdash;&thinsp;2027
-    </a>
-    <div class="nav-links-wrap" id="navLinksWrap">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#courses">Courses</a>
-      <a href="#testimonials">Testimonials</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#register">Register</a>
-      <a href="#admin">Database</a>
-      <a href="#contact">Contact</a>
-      <a href="#register" class="btn btn-primary nav-cta">Apply Now →</a>
-    </div>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-</header>
+<!-- Navigation (React Navbar mounts here) -->
+<div id="navbarRoot"></div>
 
 <main id="main-content">
 
@@ -368,152 +350,19 @@
       <!-- Form side -->
       <div class="reveal">
         <div class="form-card">
-          <div id="formWrap">
-            <h3>Registration Form</h3>
-            <p>All fields marked <span style="color:var(--accent2);">*</span> are required.</p>
-
-            <form id="regForm" novalidate aria-label="Summer Programme registration form">
-
-              <div class="form-group">
-                <label for="fname">Full Name <span>*</span></label>
-                <input type="text" id="fname" name="name" class="form-control"
-                       placeholder="e.g. Sophie Martin" required autocomplete="name" />
-                <span class="error-msg" role="alert"></span>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="fphone">Contact Number <span>*</span></label>
-                  <input type="tel" id="fphone" name="phone" class="form-control"
-                         placeholder="+33 6 12 34 56 78" required autocomplete="tel" />
-                  <span class="error-msg" role="alert"></span>
-                </div>
-                <div class="form-group">
-                  <label for="femail">Email Address <span>*</span></label>
-                  <input type="email" id="femail" name="email" class="form-control"
-                         placeholder="you@esiea.fr" required autocomplete="email" />
-                  <span class="error-msg" role="alert"></span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="fcourse">Preferred Course <span>*</span></label>
-                <select id="fcourse" name="course" class="form-control" required>
-                  <option value="" disabled selected>— Select a course —</option>
-                </select>
-                <span class="error-msg" role="alert"></span>
-              </div>
-
-              <div class="form-group">
-                <label for="fcomments">Additional Comments</label>
-                <textarea id="fcomments" name="comments" class="form-control"
-                          placeholder="Any questions, dietary requirements, or additional information…"></textarea>
-              </div>
-
-              <span class="error-msg" id="formGlobalError" role="alert"></span>
-              <button type="submit" class="btn btn-dark btn-primary form-submit">
-                Submit Registration →
-              </button>
-            </form>
-          </div>
-
-          <!-- Success state -->
-          <div id="formSuccess" class="form-success" aria-live="polite">
-            <h3>Registration Submitted</h3>
-            <p>Thank you for your interest in the HWUM Summer Programme 2027. Your information has been saved to our database. You will receive a confirmation email from Suzanne Vilchez shortly.</p>
-            <br>
-            <button id="resetFormBtn" class="btn btn-dark" style="margin:0 auto;">Register Another Student</button>
+          <div id="formWrap"><!-- React RegistrationForm mounts here --></div>
           </div>
         </div>
-      </div>
 
     </div>
   </div>
 </section>
 
-<!-- Gallery -->
-<section id="gallery" class="section-wrap" aria-label="Photo Gallery — Places to Discover">
-  <div class="container">
-    <div class="text-center">
-      <span class="section-label reveal">05 &mdash; Gallery</span>
-      <h2 class="section-title reveal">Places You Will Discover</h2>
-      <p class="section-desc reveal">With classes running Monday to Wednesday only, every week is a chance to explore. Here is what awaits you in Malaysia — and just a short flight away in Singapore, Thailand and beyond. All photos were taken by previous participants.</p>
-    </div>
+<!-- Gallery + Lightbox rendered by React Gallery component -->
+<div id="galleryRoot"></div>
 
-    <!-- Country filters -->
-    <div class="gallery-filters reveal" id="galleryFilters" role="group" aria-label="Filter photos by country"></div>
-
-    <!-- Carousel -->
-    <div class="carousel reveal">
-      <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous photos">&#10094;</button>
-      <div class="carousel-track" id="carouselTrack" aria-label="Photo carousel"></div>
-      <button class="carousel-btn next" id="carouselNext" aria-label="Next photos">&#10095;</button>
-    </div>
-    <p class="carousel-counter" id="carouselCounter" aria-live="polite"></p>
-  </div>
-</section>
-
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Close image viewer">&times;</button>
-  <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image">&#10094;</button>
-  <figure class="lightbox-figure">
-    <img id="lightboxImg" src="" alt="" />
-    <figcaption id="lightboxCaption"></figcaption>
-  </figure>
-  <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image">&#10095;</button>
-</div>
-
-<!-- Database panel -->
-<section id="admin" class="section-wrap" aria-label="Registration Database">
-  <div class="container">
-    <span class="section-label reveal">06 &mdash; Database</span>
-    <h2 class="section-title reveal">Registration Database</h2>
-    <p class="section-desc reveal">All submitted registrations are stored in a MySQL database (<code>hwum_summer</code>) queried through PHP and SQL. They can be filtered by course, searched by name or email, and exported as CSV — each operation runs a SQL query on the server.</p>
-
-    <div class="db-status" id="dbStatus" role="alert" hidden></div>
-
-    <!-- Stats bar -->
-    <div class="stats-bar reveal" id="statsBar" aria-label="Registration statistics"></div>
-
-    <!-- Admin controls -->
-    <div class="admin-header reveal">
-      <div class="admin-filters" role="group" aria-label="Filter registrations">
-        <label for="filterCourse">Filter by course:</label>
-        <select id="filterCourse" aria-label="Filter by course">
-          <option value="all">All Courses</option>
-        </select>
-        <input type="search" id="filterSearch" class="admin-search"
-               placeholder="Search name or email…" aria-label="Search registrations" />
-      </div>
-      <button class="export-btn" id="exportBtn" aria-label="Export registrations as CSV">
-        Export CSV
-      </button>
-    </div>
-
-    <!-- Table -->
-    <div class="table-wrap reveal" role="region" aria-label="Registrations table" aria-live="polite">
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Full Name</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Email</th>
-            <th scope="col">Course</th>
-            <th scope="col">Date</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody id="adminTableBody">
-          <tr><td colspan="6" class="table-empty">
-            <p>Loading registrations…</p>
-          </td></tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-</section>
+<!-- AdminPanel rendered by React -->
+<div id="adminRoot"></div>
 
 <!-- Contact -->
 <section id="contact" class="section-wrap" aria-label="Contact Information">
@@ -626,6 +475,6 @@
 </footer>
 
 <!-- JavaScript -->
-<script src="js/main.js"></script>
+<script type="text/babel" src="js/main.js"></script>
 </body>
 </html>

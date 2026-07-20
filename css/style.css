@@ -178,8 +178,6 @@ p  { color: var(--mid); line-height: 1.75; }
 #home {
   min-height: 100vh;
   background:
-    radial-gradient(circle 300px at 80% 36%, rgba(244,163,0,0.32), transparent 70%),
-    radial-gradient(circle 150px at 80% 36%, var(--mango) 98%, transparent 100%),
     linear-gradient(180deg, rgba(20,54,45,0.38) 0%, rgba(20,54,45,0.55) 55%, rgba(20,54,45,0.9) 100%),
     url('../images/hero-bg.jpg') center/cover no-repeat;
   display: flex; align-items: flex-end;
