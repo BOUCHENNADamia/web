@@ -5,20 +5,34 @@ A promotional website for the Heriot-Watt University Malaysia Summer Programme f
 
 ## Project structure
 
+The site is a **React single-page application**, built with [Vite](https://vitejs.dev/)
+and compiled with `npm run build` before it is deployed — no in-browser
+compilation, matching the course's React workflow.
+
 ```
 web-main/
-├── index.html          Single-page website (7 sections + database panel)
-├── database.sql        Creates the `hwum_summer` database, tables and seed data
-├── css/style.css       All styling
-├── js/main.js          Navigation, gallery carousel, form validation,
-│                       fetch() calls to the PHP API
+├── frontend/            React source (Vite) — build this to produce dist/
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── index.html        Vite entry point (mounts <App /> into #root)
+│   └── src/
+│       ├── main.jsx      React root
+│       ├── App.jsx       Assembles all sections, shares state between
+│       │                 the registration form and the admin panel
+│       ├── data.js       Gallery photos, course info, testimonials, nav links
+│       ├── api.js        fetch() helper for the PHP API
+│       └── components/   Navbar, Home, About, Courses, Testimonials,
+│                         Register, RegistrationForm, Gallery, AdminPanel,
+│                         Contact, Footer
+├── dist/                 Build output (generated — not committed, see below)
+├── database.sql          Creates the `hwum_summer` database, tables and seed data
 ├── php/
-│   ├── config.inc.php  Database credentials (host, name, user, password)
-│   ├── db.php          Shared PDO connection helper
+│   ├── config.inc.php    Database credentials (host, name, user, password)
+│   ├── db.php             Shared PDO connection helper
 │   ├── registrations.php  GET  — list + SQL filtering + GROUP BY stats
 │   ├── register.php       POST — INSERT with prepared statement
 │   └── delete.php         POST — DELETE by primary key
-└── images/             Optimised photos (web copies in images/gallery/)
+└── images/                Optimised photos (web copies in images/gallery/)
 ```
 
 ## Database design
@@ -95,11 +109,55 @@ CREATE TABLE registrations (
 
 ## How to run (XAMPP)
 
-1. Install [XAMPP](https://www.apachefriends.org/) and start **Apache** and **MySQL** from the XAMPP Control Panel.
-2. Copy this whole folder into `C:\xampp\htdocs\` (e.g. `C:\xampp\htdocs\hwum`).
-3. Open [http://localhost/phpmyadmin](http://localhost/phpmyadmin) → **Import** tab → choose `database.sql` → **Go**.
+The React source lives in `frontend/`. It must be **built with npm** — the
+result is a `dist/` folder of plain HTML/CSS/JS that XAMPP can serve. Node.js
+is only needed on the machine that builds the site, not on the XAMPP server.
+
+### 1. Build the React app
+
+```
+cd frontend
+npm install      # first time only — installs React, Vite, etc.
+npm run build    # compiles frontend/src → dist/ at the repo root
+```
+
+This creates `web-main/dist/index.html`, `dist/assets/*.js` and
+`dist/css/style.css`. Re-run `npm run build` any time you change a file in
+`frontend/src/`.
+
+### 2. Deploy to XAMPP
+
+Copy the following into `C:\xampp\htdocs\hwum\` (create the folder if needed):
+
+- everything **inside** `dist/` (`index.html`, `assets/`, `css/`)
+- `php/`
+- `images/`
+- `database.sql`
+
+Do **not** copy `frontend/` itself — XAMPP only needs the build output.
+
+> ⚠ Copy the **contents** of `dist/`, not the `dist/` folder itself.
+> `index.html` must end up directly in `C:\xampp\htdocs\hwum\index.html`,
+> not `C:\xampp\htdocs\hwum\dist\index.html` — otherwise the page 404s, and
+> even if you fix the URL, the relative links to `images/` and `php/` break
+> because they'd resolve one level too deep. You should end up with:
+>
+> ```
+> C:\xampp\htdocs\hwum\
+> ├── index.html
+> ├── assets\
+> ├── css\
+> ├── images\
+> ├── php\
+> └── database.sql
+> ```
+
+### 3. Start the server and import the database
+
+1. Start **Apache** and **MySQL** from the XAMPP Control Panel.
+2. Open [http://localhost/phpmyadmin](http://localhost/phpmyadmin) → **Import** tab → choose `database.sql` → **Go**.
    This creates the `hwum_summer` database with 3 courses and 5 demo registrations.
-4. Open **http://localhost/hwum/index.html** in your browser.
+3. Open **http://localhost/hwum/index.html** in your browser.
 
 > ⚠ The site must be opened through `http://localhost/…`, not by
 > double-clicking `index.html` — the browser cannot call PHP from a
@@ -108,9 +166,16 @@ CREATE TABLE registrations (
 
 If your MySQL root account has a password, edit `php/config.inc.php`.
 
+### Quick local preview without XAMPP
+
+`npm run preview` (inside `frontend/`, after `npm run build`) serves the
+built site on `http://localhost:4173/` for a quick look — the Database
+and Register sections will show a "database offline" message since there
+is no PHP/MySQL behind Vite's preview server.
+
 ## Features
 
 - Responsive single-page design (hero, about, courses, testimonials, registration, gallery, contact)
-- Gallery: photo **carousel** by country (Malaysia / Singapore / Thailand) with captions, filters and a full-screen lightbox — all photos taken by previous participants
+- Gallery: photo **carousel** by country (Malaysia / Singapore / Thailand / China) with captions, filters and a full-screen lightbox — all photos taken by previous participants
 - Registration form with live client-side validation **and** server-side validation
 - Admin panel: live SQL filtering, search, per-course statistics, row deletion, CSV export
